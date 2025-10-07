@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    image: motiongym-php74
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=motiongym
+      - DB_USERNAME=root
+      - DB_PASSWORD=secret
+
+  db:
+    image: mysql:5.7  # Compatible with Laravel 5.8
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=motiongym
+    volumes:
+      - db-data:/var/lib/mysql
+
+volumes:
+  db-data:
